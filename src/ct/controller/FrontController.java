@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import ct.svc.MyFlow;
 import ct.svc.impl.MemberAddSvcImpl;
+import ct.svc.impl.MemberLoginSvcImpl;
+import ct.svc.inf.IMemberSvc;
 
 
 /**
@@ -51,13 +53,7 @@ public class FrontController extends HttpServlet {
 		// get, post 요청 모두 내가 처리
 		String addr = request.getRemoteAddr();
 		String uri = request.getRequestURI();
-		// ctxPath => "/MyBlog"
-		// URI => "/MyBlog/hello.my?KK=99"
-		/*
-		ctxPath = /MyBlog
-		Action = /hello_yolgil.my
-		0:0:0:0:0:0:0:1, /MyBlog/hello_yolgil.my
-		 */
+		
 		String ctxPath = request.getContextPath();
 		System.out.println("ctxPath = " + ctxPath);
 		System.out.println("uri = " + uri);
@@ -83,6 +79,7 @@ public class FrontController extends HttpServlet {
 		//pw.append(addr + ", " + uri);
 		System.out.println(addr + ", " + uri);
 		MyFlow mf = null;
+		IMemberSvc svc = null;
 		//String viewPath = "/";
 		
 		// 서비스 분기 처리 (URL 매핑) ---------
@@ -108,8 +105,8 @@ public class FrontController extends HttpServlet {
 			// member_add_proc.my <<REDIRECT>>
 			case "member_add_proc": //  (DAO 연동)	
 				System.out.println(">> !!!");
-				MemberAddSvcImpl svc = 
-				  new MemberAddSvcImpl();
+		 
+				svc = new MemberLoginSvcImpl();
 				try {
 					mf = svc.doAction(request, response);
 				} catch (Exception e) {					
@@ -117,6 +114,44 @@ public class FrontController extends HttpServlet {
 				}
 
 				break;
+				
+			//2. 회원이 로그인/로그아웃 할 수 있다.
+			//member_login_proc.ct
+			
+			case "member_login_proc": //<<REDIRECT>>
+
+				HttpSession ses = request.getSession();
+
+				ses.setAttribute("msg",
+
+						"로그인 시도");
+
+				System.out.println("로그인 시도");
+
+				//UserLoginSvcImpl svc2 =
+
+				svc = new MemberLoginSvcImpl();				
+
+			try {
+
+				mf = svc.doAction(request, response);
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+
+			}				
+
+//				mf = new MyFlow();
+
+//				mf.setViewPath("default.jsp");
+
+//				mf.setForward(false);
+
+				break;
+				
+				
+				
 
 			default:
 			   response
@@ -126,6 +161,20 @@ public class FrontController extends HttpServlet {
 			   System.out.println("error 404!");
 			   return;
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		// -------------------------
 		if( mf != null ) {
 			if(	mf.isForward() == true ) {
@@ -151,11 +200,12 @@ public class FrontController extends HttpServlet {
 		 *  4. res.sendRedirect(내/외부url)
 		 */  
 		
+		
+		
+
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 		doWWW(request, response);
