@@ -1,5 +1,7 @@
 #cafe traders 서비스
+
 >SRS(요구사항 명확화 )문서
+
 
 ##개요
 
@@ -10,6 +12,7 @@
 
 
 ###데이터스키마
+
 -member사용자//스키마완성
 -CEO사용자//스키마완성
 -store //스키마완성
@@ -24,9 +27,13 @@
 -filter  //스키마완성
 -tag
 -activity(활동내역)
+
+
 ####엔티티 스키마
 
+
 ####memberVO
+
 id int(11) AI PK 
 email_id varchar(45) 
 password varchar(45) 
@@ -36,7 +43,9 @@ point int(11)
 following varchar(512) 
 created_at datetime 
 updated_at datetime
+
 ####ceoVO
+
 ceo_id int(11) AI PK 
 ceo_email varchar(45) 
 ceo_password varchar(45) 
