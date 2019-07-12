@@ -8,8 +8,8 @@ public class DBConnection {
 			URL = 
 			"jdbc:mysql://localhost:3306/"
 			+ "cafe_db";
-	private static final String login = "root";
-	private static final String password = "1234";
+	private static final String login = "";
+	private static final String password = "";
 	
 	public static Connection conn;
 	public static Statement stmt;
